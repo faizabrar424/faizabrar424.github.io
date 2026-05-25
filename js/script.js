@@ -7,12 +7,17 @@ if ('ontouchstart' in window) {
 
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
+cursor.style.opacity = '0';
+ring.style.opacity = '0';
+
 let mx = 0,
   my = 0,
   rx = 0,
   ry = 0;
 
 document.addEventListener('mousemove', (e) => {
+  cursor.style.opacity = '1';
+  ring.style.opacity = '1';
   mx = e.clientX;
   my = e.clientY;
   cursor.style.left = mx + 'px';
@@ -69,7 +74,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
 let activeDot = null;
 let activeRing = null;
 
-document.addEventListener('touchstart', e => {
+document.addEventListener('touchstart', (e) => {
   const touch = e.touches[0];
 
   activeDot = document.createElement('div');
@@ -105,7 +110,7 @@ document.addEventListener('touchstart', e => {
   document.body.appendChild(activeRing);
 });
 
-document.addEventListener('touchmove', e => {
+document.addEventListener('touchmove', (e) => {
   const touch = e.touches[0];
   if (activeDot) {
     activeDot.style.left = touch.clientX + 'px';
@@ -127,5 +132,18 @@ document.addEventListener('touchend', () => {
       activeDot = null;
       activeRing = null;
     }, 500);
+  }
+});
+
+document.addEventListener('touchcancel', () => {
+  if (activeDot) {
+    activeDot.style.opacity = '0';
+    activeRing.style.opacity = '0';
+    setTimeout(() => {
+      activeDot?.remove();
+      activeRing?.remove();
+      activeDot = null;
+      activeRing = null;
+    }, 0);
   }
 });
