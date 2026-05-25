@@ -111,7 +111,7 @@ nav {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 0 48px;
+  padding: 80px 48px 0; /* tambah 80px di atas */
   position: relative;
   z-index: 1;
 }
@@ -129,7 +129,7 @@ nav {
   animation: fadeUp 0.8s ease 0.2s forwards;
 }
 .hero-name {
-  font-size: clamp(48px, 8vw, 96px);
+  font-size: clamp(40px, 7vw, 80px);
   font-weight: 800;
   line-height: 0.95;
   margin-bottom: 24px;
@@ -456,7 +456,7 @@ footer .status {
   transform: translateY(0);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   nav {
     padding: 20px 24px;
   }
@@ -466,8 +466,34 @@ footer .status {
   .hero {
     padding: 0 24px;
   }
+  .hero-content {
+    max-width: 100%;
+  }
+  .hero-tag {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+  }
+  .hero-name {
+    font-size: 28px;
+  }
+  .hero-actions {
+    flex-direction: column;
+  }
+  .btn-primary,
+  .btn-secondary {
+    text-align: center;
+  }
   section {
     padding: 80px 24px;
+  }
+  .section-label {
+    letter-spacing: 0.15em;
+  }
+  .section-title {
+    font-size: 28px;
+  }
+  .project-title {
+    font-size: 18px;
   }
   .projects-grid {
     grid-template-columns: 1fr;

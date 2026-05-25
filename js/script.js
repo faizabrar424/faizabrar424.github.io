@@ -1,4 +1,10 @@
 // Custom cursor
+if ('ontouchstart' in window) {
+  document.body.style.cursor = 'none';
+  document.getElementById('cursor').style.display = 'none';
+  document.getElementById('cursorRing').style.display = 'none';
+}
+
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 let mx = 0,
@@ -57,4 +63,69 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     e.preventDefault();
     document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
   });
+});
+
+// Mobile tap effect
+let activeDot = null;
+let activeRing = null;
+
+document.addEventListener('touchstart', e => {
+  const touch = e.touches[0];
+
+  activeDot = document.createElement('div');
+  activeRing = document.createElement('div');
+
+  activeDot.style.cssText = `
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    left: ${touch.clientX}px;
+    top: ${touch.clientY}px;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.4s ease;
+  `;
+
+  activeRing.style.cssText = `
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,255,157,0.4);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    left: ${touch.clientX}px;
+    top: ${touch.clientY}px;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.4s ease;
+  `;
+
+  document.body.appendChild(activeDot);
+  document.body.appendChild(activeRing);
+});
+
+document.addEventListener('touchmove', e => {
+  const touch = e.touches[0];
+  if (activeDot) {
+    activeDot.style.left = touch.clientX + 'px';
+    activeDot.style.top = touch.clientY + 'px';
+  }
+  if (activeRing) {
+    activeRing.style.left = touch.clientX + 'px';
+    activeRing.style.top = touch.clientY + 'px';
+  }
+});
+
+document.addEventListener('touchend', () => {
+  if (activeDot) {
+    activeDot.style.opacity = '0';
+    activeRing.style.opacity = '0';
+    setTimeout(() => {
+      activeDot?.remove();
+      activeRing?.remove();
+      activeDot = null;
+      activeRing = null;
+    }, 500);
+  }
 });
